@@ -1,0 +1,15 @@
+[Unit]
+Description=Music Play Bot - Telegram Bot for Music Playback
+After=network.target
+
+[Service]
+Type=simple
+User=YOUR_USERNAME
+WorkingDirectory=/path/to/music-play-bot
+Environment=PATH=/path/to/music-play-bot/venv/bin
+ExecStart=/path/to/music-play-bot/venv/bin/python main.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
