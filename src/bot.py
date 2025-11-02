@@ -265,32 +265,19 @@ class MusicPlayBot:
         print(f"🎚️ Default volume: {int(config.default_volume * 100)}%")
         
         # Configure proxy if available
+        
+        
+        
+        builder = (
+            Application.builder()
+            .token(config.telegram_bot_token)
+        )
         if config.has_proxy():
             print(f"🌐 Using SOCKS5 proxy: {config.socks5_proxy_url}")
-            
-            # Create application with proxy configuration
-            from telegram.request import HTTPXRequest
-            
-            # Create custom request object with SOCKS5 proxy
-            request = HTTPXRequest(
-                connection_pool_size=8,
-                proxy_url=config.socks5_proxy_url,
-                read_timeout=20,
-                write_timeout=20,
-                connect_timeout=20
-            )
-            
-            # Create application with custom request handler
-            self.application = (
-                Application.builder()
-                .token(config.telegram_bot_token)
-                .request(request)
-                .build()
-            )
+            builder.proxy_url(config.socks5_proxy_url)
         else:
             print("🌐 No proxy configured - using direct connection")
-            # Create application without proxy
-            self.application = Application.builder().token(config.telegram_bot_token).build()
+        self.application = builder.build()
         
         # Set up handlers
         self.setup_handlers()
